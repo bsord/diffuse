@@ -8,9 +8,8 @@ services:
       - "8545:8545"
     volumes:
       - ./ganache_data:/ganache_data
-    entrypoint:
-      - node
-      - ./build/cli.node.js
+    command:
+      - ganache-cli
       - --deterministic
       - --db=/ganache_data
       - --mnemonic
@@ -25,7 +24,10 @@ services:
 
   diffuse:
     container_name: diffuse
+    ports:
+      - "3000:3000"
     build:
+      context: '.'
       dockerfile: Dockerfile-dev
     restart: always
     networks:
@@ -37,5 +39,4 @@ services:
 
 networks:
   diffuse-net:
-    name: diffuse-net
     driver: bridge
